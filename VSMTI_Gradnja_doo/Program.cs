@@ -100,7 +100,7 @@ namespace VSMTI_Gradnja_doo
         {
             List<Korisnik> lUsers = new List<Korisnik>();
             string sXml = "";
-            StreamReader oSr = new StreamReader(Path.Combine(Environment.CurrentDirectory + "/xml", "config.xml"));
+            StreamReader oSr = new StreamReader("config.xml");
             using (oSr)
             {
                 sXml = oSr.ReadToEnd();
@@ -125,7 +125,7 @@ namespace VSMTI_Gradnja_doo
         {
             List<Artikl> lArticles = new List<Artikl>();
             string sXml = "";
-            StreamReader oSr = new StreamReader(Path.Combine(Environment.CurrentDirectory + "/xml", "artikli.xml"));
+            StreamReader oSr = new StreamReader("artikli.xml");
             using (oSr)
             {
                 sXml = oSr.ReadToEnd();
@@ -154,7 +154,7 @@ namespace VSMTI_Gradnja_doo
         {
             List<Dokument> lDokumenti = new List<Dokument>();
             string sXml = "";
-            StreamReader oSr = new StreamReader(Path.Combine(Environment.CurrentDirectory + "/xml", "stanje.xml"));
+            StreamReader oSr = new StreamReader("stanje.xml");
             using (oSr)
             {
                 sXml = oSr.ReadToEnd();
@@ -189,13 +189,13 @@ namespace VSMTI_Gradnja_doo
             try
             {
                 XmlDocument config = new XmlDocument();
-                config.Load(Path.Combine(Environment.CurrentDirectory + "/xml", "config.xml"));
+                config.Load("config.xml");
 
                 XmlDocument stanje = new XmlDocument();
-                stanje.Load(Path.Combine(Environment.CurrentDirectory + "/xml", "stanje.xml"));
+                stanje.Load("stanje.xml");
 
                 XmlDocument artikli = new XmlDocument();
-                artikli.Load(Path.Combine(Environment.CurrentDirectory + "/xml", "artikli.xml"));
+                artikli.Load("artikli.xml");
                 bUcitavanje = true;
             }
             catch
@@ -215,7 +215,7 @@ namespace VSMTI_Gradnja_doo
             Console.Clear();// brisanje sadrzaja koji je vidljiv na konzoli
             Console.ForegroundColor = ConsoleColor.Red; //prvi plan(text)
             string sXml = "";
-            StreamReader oSr = new StreamReader(Path.Combine(Environment.CurrentDirectory + "/xml", "vsmti.txt"));
+            StreamReader oSr = new StreamReader("vsmti.txt");
             using (oSr)
             {
                 sXml = oSr.ReadToEnd();
@@ -273,7 +273,7 @@ namespace VSMTI_Gradnja_doo
                 if (ProvjeraPrijave(email, lozinka))
                 {
                     string dobrodosli = "";
-                    StreamReader oSr = new StreamReader(Path.Combine(Environment.CurrentDirectory + "/xml", "welcome.txt"));
+                    StreamReader oSr = new StreamReader("welcome.txt");
                     using (oSr) // expl.down
                     {
                         dobrodosli = oSr.ReadToEnd();
@@ -382,7 +382,7 @@ namespace VSMTI_Gradnja_doo
         static void Zapis(string sArg)
         {
             string trenutno = DateTime.Now.ToString("yyyy-MM-ddThh:mm:ssTZD");
-            StreamWriter oSw = new StreamWriter(Path.Combine(Environment.CurrentDirectory + "/xml", "zapisi.log"), true);
+            StreamWriter oSw = new StreamWriter(/*Path.Combine(Directory.GetCurrentDirectory() + "/text",*/ "zapisi.log", true);
             using (oSw)
             {
                 oSw.WriteLine("\n");
@@ -669,7 +669,7 @@ namespace VSMTI_Gradnja_doo
             lDokumenti.Add(izdatnica);
             
             XmlDocument xStanje = new XmlDocument(); 
-            xStanje.Load(Path.Combine(Environment.CurrentDirectory + "/xml", "stanje.xml"));
+            xStanje.Load("stanje.xml");
 
             XmlElement eNode = xStanje.CreateElement("dokument");  // element > atributi
             XmlAttribute atributTip = xStanje.CreateAttribute("tip");
@@ -712,7 +712,7 @@ namespace VSMTI_Gradnja_doo
             else
             {
                 xStanje.DocumentElement.AppendChild(eNode); // podiznje elementa iznad -> root elementa
-                xStanje.Save(Path.Combine(Environment.CurrentDirectory + "/xml", "stanje.xml"));
+                xStanje.Save("stanje.xml");
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("\n*****************IZDATNICA USPJESNO SPREMLJENA*********************\n");
                 Console.ResetColor();
@@ -774,7 +774,7 @@ namespace VSMTI_Gradnja_doo
             lDokumenti.Add(primka);
 
             XmlDocument xStanje = new XmlDocument();
-            xStanje.Load(Path.Combine(Environment.CurrentDirectory + "/xml", "stanje.xml"));
+            xStanje.Load("stanje.xml");
 
             XmlElement eNode = xStanje.CreateElement("dokument");  // element > atributi
             XmlAttribute atributTip = xStanje.CreateAttribute("tip");
@@ -817,7 +817,7 @@ namespace VSMTI_Gradnja_doo
             else
             {
                 xStanje.DocumentElement.AppendChild(eNode);
-                xStanje.Save(Path.Combine(Environment.CurrentDirectory + "/xml", "stanje.xml"));
+                xStanje.Save("stanje.xml");
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("\n*********************PRIMKA USPJESNO SPREMLJENA**********************\n");
                 Console.ResetColor();
