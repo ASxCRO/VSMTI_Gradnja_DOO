@@ -563,10 +563,24 @@ namespace VSMTI_Gradnja_doo
             
             for (int i = 0; i < dokumentiArtikla.Count; i++)
             {
+                string tip = "";
+                if (dokumentiArtikla[i].tip == 1)
+                {
+                    tip = "PS";
+                }
+                else if (dokumentiArtikla[i].tip == 2)
+                {
+                    tip = "IZD";
+                }
+                else if (dokumentiArtikla[i].tip == 3)
+                {
+                    tip = "PRM";
+                }
+
                 tablicaIzvjesaj.AddRow(
                        i + 1 + ".",
                       dokumentiArtikla[i].naziv,
-                      dokumentiArtikla[i].tip,
+                      tip,
                       dokumentiArtikla[i].datum,
                       dokumentiArtikla[i].sifra,
                       cijena,
