@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<artikli>
+  <artikl sifra="00" naziv="Beton" jmj="m3" cijena="450,25"></artikl>
+  <artikl sifra="01" naziv="Cement" jmj="kom" cijena="49,99"></artikl>
+  <artikl sifra="02" naziv="Cigla" jmj="kom" cijena="2,00"></artikl>
+  <artikl sifra="03" naziv="Crijep" jmj="m2" cijena="7,29"></artikl>
+  <artikl sifra="04" naziv="Knauf" jmj="kom" cijena="22,75"></artikl>
+  <artikl sifra="05" naziv="Greda" jmj="kom" cijena="105,69"></artikl>
+  <artikl sifra="06" naziv="Kamen" jmj="m3" cijena="81,24"></artikl>
+  <artikl sifra="07" naziv="Pijesak" jmj="m3" cijena="25,99"></artikl>
+  <artikl sifra="08" naziv="Sljunak" jmj="m3" cijena="79,99"></artikl>
+  <artikl sifra="09" naziv="Zbuka" jmj="kom" cijena="40,50"></artikl>
+</artikli>
