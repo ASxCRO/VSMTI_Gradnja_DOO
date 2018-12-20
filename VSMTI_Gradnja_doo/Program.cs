@@ -382,7 +382,7 @@ namespace VSMTI_Gradnja_doo
         static void Zapis(string sArg)
         {
             string trenutno = DateTime.Now.ToString("yyyy-MM-ddThh:mm:ssTZD");
-            StreamWriter oSw = new StreamWriter(/*Path.Combine(Directory.GetCurrentDirectory() + "/text",*/ "zapisi.log", true);
+            StreamWriter oSw = new StreamWriter("zapisi.log", true);
             using (oSw)
             {
                 oSw.WriteLine("\n");
@@ -431,7 +431,7 @@ namespace VSMTI_Gradnja_doo
             Console.Write("\nVas odabir: ");
 
             int odabir = Convert.ToInt32(Console.ReadKey().Key);
-            int[] dozvoljeniUnosi = { (int)Key.DIGIT_1, (int)Key.DIGIT_2, (int)Key.DIGIT_3, (int)Key.DIGIT_4, (int)Key.DIGIT_5}; //polje ascii
+            int[] dozvoljeniUnosi = { (int)Key.DIGIT_1, (int)Key.DIGIT_2, (int)Key.DIGIT_3, (int)Key.DIGIT_4, (int)Key.DIGIT_5}; //polje ascii enum key
             while (!dozvoljeniUnosi.Contains(odabir))   //Contains - f koja provjera da li u polju postoji zadana varijabla
             {
                 Console.ForegroundColor = ConsoleColor.Red;
