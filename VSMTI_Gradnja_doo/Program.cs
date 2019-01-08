@@ -31,8 +31,8 @@ namespace VSMTI_Gradnja_doo
         }
 
         static void Main(string[] args)
-        { 
-            Pocetna();
+        {
+            PocetniIzbornik();
         }
         
         public struct Korisnik        //struktura koja definira user-a
@@ -105,7 +105,6 @@ namespace VSMTI_Gradnja_doo
                 string lozinka = oNode.Attributes["lozinka"].Value;
                 lUsers.Add(new Korisnik(email, lozinka)); //konstruktor
             }
-            oSr.Close();
             return lUsers;
         }
 
@@ -130,7 +129,6 @@ namespace VSMTI_Gradnja_doo
 
                 lArticles.Add(new Artikl(sifra, naziv, jmj, cijena));
             }
-            oSr.Close();
             return lArticles;
         }
 
@@ -159,7 +157,6 @@ namespace VSMTI_Gradnja_doo
 
                 lDokumenti.Add(new Dokument(Tip, Datum, Sifra, Naziv, KolUlaz, IznosUlaz, KolIzlaz, IznosIzlaz));
             }
-            oSr.Close();
             return lDokumenti;
         }
 
@@ -189,9 +186,9 @@ namespace VSMTI_Gradnja_doo
             return bUcitavanje;
         }
 
-        static void Pocetna()        //static je f koja se moze pozvati bez da je objekt klase kojoj pripada ta funkcija instanciran.
+        static void PocetniIzbornik()        //static je f koja se moze pozvati bez da je objekt klase kojoj pripada ta funkcija instanciran.
         {
-            Console.Clear();        // brisanje sadrzaja koji je vidljiv na konzoli
+            Console.Clear();       
             Console.ForegroundColor = ConsoleColor.Red; //prvi plan(text)
             string sXml = "";
             StreamReader oSr = new StreamReader("vsmti.txt");
@@ -205,7 +202,7 @@ namespace VSMTI_Gradnja_doo
             Console.WriteLine("Pritisnite [X] za izlazak iz programa");
             Console.ResetColor();
             Console.Write("\nVaš odabir: ");
-            int odabir = Convert.ToInt32(Console.ReadKey().Key); //.Key cita kod tipke koju pritisnemo
+            int odabir = Convert.ToInt32(Console.ReadKey().Key); //.Key cita ascii kod tipke koju pritisnemo
             while (odabir != (int)Key.P && odabir != (int)Key.X)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
@@ -261,7 +258,7 @@ namespace VSMTI_Gradnja_doo
                     Console.ResetColor();
                     System.Threading.Thread.Sleep(1500);//delay
                     Zapis("Login: " + email);
-                    Izbornik();
+                    GlavniIzbornik();
                 }
                 else
                 {
@@ -317,7 +314,7 @@ namespace VSMTI_Gradnja_doo
 
         static string UnosBroja()        //f koja omogucuje unos iskljucivo brojcanih vrijednosti te vraca istu
         {
-            string kolicina = "";
+            string broj = "";
             int vrijednost = 0;
             ConsoleKeyInfo chr;
             do
@@ -328,28 +325,28 @@ namespace VSMTI_Gradnja_doo
                     bool kontrola = int.TryParse(chr.KeyChar.ToString(), out vrijednost);
                     if (kontrola)
                     {
-                        kolicina += chr.KeyChar;
+                        broj += chr.KeyChar;
                         Console.Write(chr.KeyChar);
                     }
                 }
                 else
                 {
-                    if (chr.Key == ConsoleKey.Backspace && kolicina.Length > 0)
+                    if (chr.Key == ConsoleKey.Backspace && broj.Length > 0)
                     {
-                        kolicina = kolicina.Substring(0, (kolicina.Length - 1));
+                        broj = broj.Substring(0, (broj.Length - 1));
                         Console.Write("\b \b");
                     }
                 }
             } while (chr.Key != ConsoleKey.Enter);
 
-            if (int.Parse(kolicina) == 0)
+            if (int.Parse(broj) == 0)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.Write("\nNemoguc unos! Provjerite te unesite ponovno: ");
+                Console.Write("\nNemoguc unos! Unesite broj veci od nule: ");
                 Console.ResetColor();
                 UnosBroja();
             }
-            return kolicina;
+            return broj;
         }
 
         static void Zapis(string sArg)        //f za logove
@@ -382,12 +379,12 @@ namespace VSMTI_Gradnja_doo
             switch (odabir)//moze i if
             {
                 case (int)Key.C:
-                    Izbornik();
+                    GlavniIzbornik();
                     break;
             }
         }
 
-        static void Izbornik()        //f za izlist izbornika i odabir
+        static void GlavniIzbornik()        //f za izlist izbornika i odabir
         {
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Red;
@@ -440,7 +437,7 @@ namespace VSMTI_Gradnja_doo
                     }
                 case (int)Key.DIGIT_5:
                     {
-                        Pocetna();
+                        PocetniIzbornik();
                         break;
                     }
             }
@@ -456,29 +453,29 @@ namespace VSMTI_Gradnja_doo
             for (int i = 0; i < lArtikli.Count(); i++)
             {
                 //linq querry (LINQYOU) operations to manipulatre with lists
-                var pocetno_kol = lDokumenti.Where(d => d.sifra == lArtikli[i].sifra && d.tip == (int)Tip.PS).Select(d => d.kolUlaz).FirstOrDefault();
-                var pocetno_iznos = pocetno_kol * lArtikli[i].cijena;
-                var kol_ulaz = lDokumenti.Where(d => d.sifra == lArtikli[i].sifra && d.tip == (int)Tip.PRM).Sum(d => d.kolUlaz);
-                var iznos_ulaz = kol_ulaz * lArtikli[i].cijena;
-                var kol_izlaz = lDokumenti.Where(d => d.sifra == lArtikli[i].sifra && d.tip == (int)Tip.IZD).Sum(d => d.kolIzlaz);
-                var iznos_izlaz = kol_izlaz * lArtikli[i].cijena;
-                var trenutno_kol = pocetno_kol + kol_ulaz - kol_izlaz;
+                var pocetnoKol = lDokumenti.Where(d => d.sifra == lArtikli[i].sifra && d.tip == (int)Tip.PS).Select(d => d.kolUlaz).FirstOrDefault();
+                var pocetnoIznos = pocetnoKol * lArtikli[i].cijena;
+                var kolUlaz = lDokumenti.Where(d => d.sifra == lArtikli[i].sifra && d.tip == (int)Tip.PRM).Sum(d => d.kolUlaz);
+                var iznosUlaz = kolUlaz * lArtikli[i].cijena;
+                var kolIzlaz = lDokumenti.Where(d => d.sifra == lArtikli[i].sifra && d.tip == (int)Tip.IZD).Sum(d => d.kolIzlaz);
+                var iznosIzlaz = kolIzlaz * lArtikli[i].cijena;
+                var trenutnoKol = pocetnoKol + kolUlaz - kolIzlaz;
                 var jmj = lArtikli.Select(d => d.jmj).ToList();
-                var trenutno_iznos = trenutno_kol * lArtikli[i].cijena;
+                var trenutnoIznos = trenutnoKol * lArtikli[i].cijena;
                 string valuta = " kn";
 
                 tablicaStanja.AddRow(
                         i + 1 + ".",
                         lArtikli[i].naziv,
                         lArtikli[i].cijena + valuta,
-                        pocetno_kol + " " + jmj[i],
-                        pocetno_iznos + valuta,
-                        kol_ulaz + " " + jmj[i],
-                        iznos_ulaz + valuta,
-                        kol_izlaz + " " + jmj[i],
-                        iznos_izlaz + valuta,
-                        trenutno_kol + " " + jmj[i],
-                        trenutno_iznos + valuta
+                        pocetnoKol + " " + jmj[i],
+                        pocetnoIznos + valuta,
+                        kolUlaz + " " + jmj[i],
+                        iznosUlaz + valuta,
+                        kolIzlaz + " " + jmj[i],
+                        iznosIzlaz + valuta,
+                        trenutnoKol + " " + jmj[i],
+                        trenutnoIznos + valuta
                         );
             }
             Console.ForegroundColor = ConsoleColor.Red;
@@ -489,30 +486,38 @@ namespace VSMTI_Gradnja_doo
 
         static void DohvatiIzvjestaj()          //f koja omogucuje unos sifre/naziva te provjerava postoji li isti na skladistu te ispisuje stanje tog artikla
         {
+            Console.Clear();
             List<Artikl> lArtikli = DohvatiArtikle();
             List<Dokument> lDokumenti = DohvatiDokumente();
-            lDokumenti = lDokumenti.OrderBy(x => x.datum).ToList();
-
+            //lDokumenti = lDokumenti.OrderBy(x => x.datum).ToList();
             string zeljeniArtikl = TablicaZeljeniArtikl();
-
-            var sifreArtikla = lArtikli.Select(a => a.sifra).ToList(); //name or pw Artikla
-            var naziviArtikla = lArtikli.Select(a => a.naziv).ToList();
-            while (!sifreArtikla.Contains(zeljeniArtikl) && !naziviArtikla.Contains(zeljeniArtikl))
-            {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Ne postoji artikl sa navedenom sifrom/nazivom, pokušajte ponovno.");
-                Console.ResetColor();
-                Console.Write("\nUnesite sifru/naziv artikla: ");
-                zeljeniArtikl = Console.ReadLine();
-            }
-            Console.Clear();
             Zapis("Izvjestaj: " + zeljeniArtikl);
+            Console.Clear();
+
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("\n*****************************IZVJESTAJ ARTIKLA*****************************");
+            Console.ResetColor();
+
+            var pocetnoKol = lDokumenti.Where(d => (d.sifra == zeljeniArtikl || d.naziv == zeljeniArtikl) && d.tip == (int)Tip.PS).Select(d => d.kolUlaz).FirstOrDefault();
+            var kolUlaz = lDokumenti.Where(d => (d.sifra == zeljeniArtikl || d.naziv == zeljeniArtikl) && d.tip == (int)Tip.PRM).Sum(d => d.kolUlaz);
+            var kolIzlaz = lDokumenti.Where(d => (d.sifra == zeljeniArtikl || d.naziv == zeljeniArtikl) && d.tip == (int)Tip.IZD).Sum(d => d.kolIzlaz);
+            var trenutnoKol = pocetnoKol + kolUlaz - kolIzlaz;
+            var trenutnoIznos = trenutnoKol * lArtikli.Where(d => (d.sifra == zeljeniArtikl || d.naziv == zeljeniArtikl)).Select(d => d.cijena).FirstOrDefault();
+            var jmj = lArtikli.Where(d => d.sifra == zeljeniArtikl || d.naziv == zeljeniArtikl).Select(d => d.jmj).FirstOrDefault();
+            string valuta = " kn";
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write("Trenutna kolicina artikla je: ");
+            Console.ResetColor();
+            Console.Write(trenutnoKol + " " + jmj + "\n");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write("Trenutan ukupan iznos artikla je: ");
+            Console.ResetColor();
+            Console.Write(trenutnoIznos + valuta + "\n");
 
             var tablicaIzvjesaj = new ConsoleTable("Rb.", "Naziv artikla ", "Tip dokumenta", "Datum", "Sifra","Cijena", "Kolicina ulaz", "Iznos ulaz", "Kolicina izlaz", "Iznos izlaz");
             var dokumentiArtikla = lDokumenti.Where(d => d.sifra == zeljeniArtikl || d.naziv == zeljeniArtikl).ToList();
             var cijena = lArtikli.Where(d => d.sifra == zeljeniArtikl || d.naziv == zeljeniArtikl).Select(d => d.cijena).FirstOrDefault();
-            var jmj = lArtikli.Where(d => d.sifra == zeljeniArtikl || d.naziv == zeljeniArtikl).Select(d => d.jmj).FirstOrDefault();
-            string valuta = " kn";
+            lDokumenti = lDokumenti.OrderBy(x => x.datum).ToList();
             
             for (int i = 0; i < dokumentiArtikla.Count; i++)
             {
@@ -536,16 +541,13 @@ namespace VSMTI_Gradnja_doo
                       tip,
                       dokumentiArtikla[i].datum,
                       dokumentiArtikla[i].sifra,
-                      cijena,
+                      cijena + valuta,
                       dokumentiArtikla[i].kolUlaz +" "+ jmj,
                       dokumentiArtikla[i].kolUlaz * cijena + valuta,
                       dokumentiArtikla[i].kolIzlaz +" "+ jmj,
                       dokumentiArtikla[i].kolIzlaz * cijena + valuta
                       );
             }
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("\n*****************************IZVJESTAJ ARTIKLA*****************************");
-            Console.ResetColor();
             tablicaIzvjesaj.Write();
         }
 
@@ -560,27 +562,33 @@ namespace VSMTI_Gradnja_doo
 
             string zeljeniArtikl = TablicaZeljeniArtikl();
 
-            Console.Write("Unesite kolicinu izlaza: ");
-            int kolicinaIzlaza = Convert.ToInt32(UnosBroja());
-            for (int i = 0; i < lDokumenti.Count(); i++)
-            {
-                var pocetno_kol = lDokumenti.Where(d => (d.sifra == zeljeniArtikl || d.naziv == zeljeniArtikl)  && d.tip == (int)Tip.PS).Select(d => d.kolUlaz).FirstOrDefault();
-                var kol_ulaz = lDokumenti.Where(d => (d.sifra == zeljeniArtikl || d.naziv == zeljeniArtikl) && d.tip == (int)Tip.PRM).Sum(d => d.kolUlaz);
-                var kol_izlaz = lDokumenti.Where(d => (d.sifra == zeljeniArtikl || d.naziv == zeljeniArtikl) && d.tip == (int)Tip.IZD).Sum(d => d.kolIzlaz);
-                var trenutno_kol = pocetno_kol + kol_ulaz - kol_izlaz;
+            var pocetnoKol = lDokumenti.Where(d => (d.sifra == zeljeniArtikl || d.naziv == zeljeniArtikl) && d.tip == (int)Tip.PS).Select(d => d.kolUlaz).FirstOrDefault();
+            var kolUlaz = lDokumenti.Where(d => (d.sifra == zeljeniArtikl || d.naziv == zeljeniArtikl) && d.tip == (int)Tip.PRM).Sum(d => d.kolUlaz);
+            var kolIzlaz = lDokumenti.Where(d => (d.sifra == zeljeniArtikl || d.naziv == zeljeniArtikl) && d.tip == (int)Tip.IZD).Sum(d => d.kolIzlaz);
+            var trenutnoKol = pocetnoKol + kolUlaz - kolIzlaz;
+            var jmj = lArtikli.Where(d => d.sifra == zeljeniArtikl || d.naziv == zeljeniArtikl).Select(d => d.jmj).FirstOrDefault();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write("Trenutna kolicina artikla je: ");
+            Console.ResetColor();
+            Console.Write(trenutnoKol + " " + jmj);
 
-                if (kolicinaIzlaza > trenutno_kol)
-                {
+            Console.Write("\nUnesite kolicinu izlaza: ");
+            int kolicinaIzlaza = Convert.ToInt32(UnosBroja());
+
+            if (trenutnoKol == 0)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("\nNemoguca izdatnica! Artikla nema na skladištu.\n");
+                Console.ResetColor();
+                DohvatiTipku();
+            }
+            if (trenutnoKol < kolicinaIzlaza)
+            {
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("\nNemoguca izdatnica! Kolicina izlaza veca od trenutnog stanja, pokusajte ponovno.\n");
                     Console.ResetColor();
                     Console.Write("Unesite kolicinu izlaza: ");
                     kolicinaIzlaza = Convert.ToInt32(UnosBroja());
-                }
-                else
-                {
-                    break;
-                }
             }
 
             var izdatnica = new Dokument //kreiranje objekta strukture Dokument kojem zadajemo vrijednosti
@@ -609,7 +617,7 @@ namespace VSMTI_Gradnja_doo
             int odabir = Convert.ToInt32(Console.ReadKey().Key);
             if (odabir != (int)Key.Y)
             {
-                Izbornik();
+                GlavniIzbornik();
             }
             else
             {
@@ -633,6 +641,7 @@ namespace VSMTI_Gradnja_doo
             Console.ResetColor();
 
             string zeljeniArtikl = TablicaZeljeniArtikl();
+
             Console.Write("Unesite kolicinu ulaza: ");
             int kolicinaUlaza = Convert.ToInt32(UnosBroja());
 
@@ -659,10 +668,10 @@ namespace VSMTI_Gradnja_doo
             Console.WriteLine("Odaberite bilo koju drugu tipku kako biste odustali.");
             Console.ResetColor();
             Console.Write("\nOdabir: ");
-            int odabir = Convert.ToInt32(Console.ReadKey().Key);
+            int odabir = Convert.ToInt32(Console.ReadKey(true).Key);
             if (odabir != (int)Key.Y)
             {
-                Izbornik();
+                GlavniIzbornik();
             }
             else
             {
@@ -710,7 +719,7 @@ namespace VSMTI_Gradnja_doo
             List<Artikl> lArtikli = DohvatiArtikle();
 
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("~~~~~~~~~PONUDENI ARTIKLI~~~~~~~~~");
+            Console.WriteLine("\n~~~~~~~~~PONUDENI ARTIKLI~~~~~~~~~");
             Console.ResetColor();
 
             var tablicaArtikli = new ConsoleTable("Sifra", "Naziv artikla"); //An implicitly typed local variable -var- is strongly typed just as if you had declared the type yourself, but the compiler determines the type
