@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28010.2048
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VSMTI_Gradnja_doo", "VSMTI_Gradnja_doo\VSMTI_Gradnja_doo.csproj", "{59F0C294-18E4-4AA1-8704-A677B1DD0B87}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VGDOO_Vjezba", "VGDOO_Vjezba\VGDOO_Vjezba.csproj", "{C3C366ED-AF5E-4CE7-9F64-D15D7A1F80C3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{59F0C294-18E4-4AA1-8704-A677B1DD0B87}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{59F0C294-18E4-4AA1-8704-A677B1DD0B87}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{59F0C294-18E4-4AA1-8704-A677B1DD0B87}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3C366ED-AF5E-4CE7-9F64-D15D7A1F80C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3C366ED-AF5E-4CE7-9F64-D15D7A1F80C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3C366ED-AF5E-4CE7-9F64-D15D7A1F80C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3C366ED-AF5E-4CE7-9F64-D15D7A1F80C3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
