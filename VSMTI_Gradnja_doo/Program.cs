@@ -6,9 +6,9 @@ using System.Linq;
 using ConsoleTables;
 
 namespace VSMTI_Gradnja_doo
-{ 
+{
     class Program    //klasu imamo da mozemo pozivati objekte
-    {   
+    {
         public enum Tip         //An enum is a convenient way to use names instead of numbers, in order to denote something. 
         {                       //It makes your code far more readable and maintainable than using numbers.         
             PS = 1,
@@ -16,24 +16,11 @@ namespace VSMTI_Gradnja_doo
             PRM = 3
         }
 
-        public enum Key
-        {
-            DIGIT_1 = 49,
-            DIGIT_2 = 50,
-            DIGIT_3 = 51,
-            DIGIT_4 = 52,
-            DIGIT_5 = 53,
-            C = 67,
-            P = 80,
-            X = 88,
-            Y = 89
-        }
-
         static void Main(string[] args)
         {
             DohvatiPocetniIzbornik();
         }
-        
+
         public struct Korisnik        //struktura koja definira user-a
         {
             public string email;
@@ -75,7 +62,7 @@ namespace VSMTI_Gradnja_doo
 
             public Dokument(int t, string d, string c, string n, int ku, decimal iu, int ki, decimal ii)  //konstruktor - funkcija koja se poziva prilikom kreiranja objekta strukture Dokument
             {
-                tip = t;                 //"tip" je podatkovni clan , a "t" parametar u koji se poziva kad citamo atribute iz xml datoteke
+                tip = t;                 //"tip" je podatkovni clan , a "t" argument konstruktora
                 datum = d;
                 sifra = c;
                 naziv = n;
@@ -125,7 +112,6 @@ namespace VSMTI_Gradnja_doo
                 string naziv = oNode.Attributes["naziv"].Value;
                 string jmj = oNode.Attributes["jmj"].Value;
                 decimal cijena = decimal.Parse(oNode.Attributes["cijena"].Value);
-
                 lArticles.Add(new Artikl(sifra, naziv, jmj, cijena));
             }
             return lArticles;
@@ -153,7 +139,6 @@ namespace VSMTI_Gradnja_doo
                 decimal iznosUlaz = decimal.Parse(oNode.Attributes["iznos_ulaz"].Value);
                 int kolIzlaz = Convert.ToInt32(oNode.Attributes["kol_izlaz"].Value);
                 decimal iznosIzlaz = decimal.Parse(oNode.Attributes["iznos_izlaz"].Value);
-
                 lDokumenti.Add(new Dokument(tip, datum, sifra, naziv, kolUlaz, iznosUlaz, kolIzlaz, iznosIzlaz));
             }
             return lDokumenti;
@@ -187,7 +172,7 @@ namespace VSMTI_Gradnja_doo
 
         static void DohvatiPocetniIzbornik()        //static je f koja se moze pozvati bez da je objekt klase kojoj pripada ta funkcija instanciran.
         {
-            Console.Clear();       
+            Console.Clear();
             Console.ForegroundColor = ConsoleColor.Red; //prvi plan(text)
             string sXml = "";
             StreamReader oSr = new StreamReader("vsmti.txt");
@@ -202,7 +187,7 @@ namespace VSMTI_Gradnja_doo
             Console.ResetColor();
             Console.Write("\nVaš odabir: ");
             int odabir = Convert.ToInt32(Console.ReadKey().Key); //.Key cita ascii kod tipke koju pritisnemo
-            while (odabir != (int)Key.P && odabir != (int)Key.X)
+            while (odabir != (int)ConsoleKey.P && odabir != (int)ConsoleKey.X)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("\nKrivi odabir, pokušajte ponovno\n");
@@ -212,22 +197,22 @@ namespace VSMTI_Gradnja_doo
             }
             switch (odabir)
             {
-                case (int)Key.P:
+                case (int)ConsoleKey.P:
                     {
                         if (ProvjeriUcitavanjeDatoteka())
                         {
                             Prijava();
                         }
                         break;
-                    }    
-                case (int)Key.X:
+                    }
+                case (int)ConsoleKey.X:
                     {
                         Environment.Exit(0);
                         break;
                     }
             }
         }
-    
+
         static void Prijava()        //f koja omogucuje unos podataka i provjerava jesu li ti podatci istovjetni sa onim iz LoginCheck()
         {
             Console.Clear();
@@ -275,8 +260,9 @@ namespace VSMTI_Gradnja_doo
                 if (email == lKorisnici[i].email && lozinka == lKorisnici[i].lozinka)
                 {
                     bUser = true;
-                } 
+                }
             }
+            var Korisnik = lKorisnici.Where(d => d.email == email && d.lozinka == lozinka).FirstOrDefault();
             return bUser;
         }
 
@@ -315,7 +301,7 @@ namespace VSMTI_Gradnja_doo
             ConsoleKeyInfo chr;
             do
             {
-                chr = Console.ReadKey(true);    //true - don't display the pressed key
+                chr = Console.ReadKey(true);  // true - don't display pressed key
                 if (chr.Key != ConsoleKey.Backspace)
                 {
                     bool kontrola = int.TryParse(chr.KeyChar.ToString(), out noNeed);
@@ -340,7 +326,7 @@ namespace VSMTI_Gradnja_doo
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.Write("\nNemoguc unos! Unesite broj veci od nule: ");
                 Console.ResetColor();
-                broj = DohvatiBroj(); 
+                broj = DohvatiBroj();
             }
             return broj;
         }
@@ -352,7 +338,7 @@ namespace VSMTI_Gradnja_doo
             Console.ResetColor();
             Console.Write("\nVas odabir: ");
             int odabir = Convert.ToInt32(Console.ReadKey().Key);
-            while (odabir != (int)Key.C)
+            while (odabir != (int)ConsoleKey.C)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("\nKrivi odabir, pokušajte ponovno\n");
@@ -360,7 +346,7 @@ namespace VSMTI_Gradnja_doo
                 Console.Write("\nVas odabir: ");
                 odabir = Convert.ToInt32(Console.ReadKey().Key);
             }
-            if (odabir == (int)Key.C)//moze i if
+            if (odabir == (int)ConsoleKey.C)
             {
                 DohvatiGlavniIzbornik();
             }
@@ -381,7 +367,7 @@ namespace VSMTI_Gradnja_doo
             Console.Write("\nVas odabir: ");
 
             int odabir = Convert.ToInt32(Console.ReadKey().Key);
-            int[] dozvoljeniUnosi = { (int)Key.DIGIT_1, (int)Key.DIGIT_2, (int)Key.DIGIT_3, (int)Key.DIGIT_4, (int)Key.DIGIT_5}; //polje ascii enum key
+            int[] dozvoljeniUnosi = { (int)ConsoleKey.D1, (int)ConsoleKey.D2, (int)ConsoleKey.D3, (int)ConsoleKey.D4, (int)ConsoleKey.D5 }; //polje ascii enum key
             while (!dozvoljeniUnosi.Contains(odabir))   //Contains - f koja provjera da li u polju postoji zadana varijabla
             {
                 Console.ForegroundColor = ConsoleColor.Red;
@@ -393,36 +379,70 @@ namespace VSMTI_Gradnja_doo
 
             switch (odabir)
             {
-                case (int)Key.DIGIT_1:
+                case (int)ConsoleKey.D1:
                     {
                         DohvatiStanje();
                         DohvatiTipku();
                         break;
                     }
-                case (int)Key.DIGIT_2:
+                case (int)ConsoleKey.D2:
                     {
                         DohvatiIzvjestaj();
                         DohvatiTipku();
                         break;
                     }
-                case (int)Key.DIGIT_3:
+                case (int)ConsoleKey.D3:
                     {
-                        DohvatiIzdatnicu();
+                        NovaIzdatnica();
                         DohvatiTipku();
                         break;
                     }
-                case (int)Key.DIGIT_4:
+                case (int)ConsoleKey.D4:
                     {
-                        DohvatiPrimku();
+                        NovaPrimka();
                         DohvatiTipku();
                         break;
                     }
-                case (int)Key.DIGIT_5:
+                case (int)ConsoleKey.D5:
                     {
                         DohvatiPocetniIzbornik();
                         break;
                     }
             }
+        }
+
+        static string DohvatiTablicuArtikala()
+        {
+            List<Artikl> lArtikli = DohvatiArtikle();
+
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("\n~~~~~~~~~PONUDENI ARTIKLI~~~~~~~~~");
+            Console.ResetColor();
+
+            var tablicaArtikli = new ConsoleTable("Sifra", "Naziv artikla"); //An implicitly typed local variable -var- is strongly typed just as if you had declared the type yourself, but the compiler determines the type
+            for (int i = 0; i < lArtikli.Count(); i++)
+            {
+                tablicaArtikli.AddRow(
+                        lArtikli[i].sifra,
+                        lArtikli[i].naziv
+                       );
+            }
+            tablicaArtikli.Write();
+
+            Console.Write("\nUnesite sifru/naziv zeljenog artikla: ");
+            string zeljeniArtikl = Console.ReadLine();
+
+            var sifreArtikla = lArtikli.Select(a => a.sifra).ToList(); //name or pw Artikla
+            var naziviArtikla = lArtikli.Select(a => a.naziv).ToList();
+            while (!sifreArtikla.Contains(zeljeniArtikl) && !naziviArtikla.Contains(zeljeniArtikl))
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Ne postoji artikl sa navedenom sifrom/nazivom, pokušajte ponovno.");
+                Console.ResetColor();
+                Console.Write("\nUnesite sifru/naziv artikla: ");
+                zeljeniArtikl = Console.ReadLine();
+            }
+            return zeljeniArtikl;
         }
 
         static void DohvatiStanje() //f koja ispisuje pregled stanja za svaki pojedini artikl na skladistu
@@ -495,13 +515,13 @@ namespace VSMTI_Gradnja_doo
             Console.ResetColor();
             Console.Write(trenutnoIznos + valuta + "\n");
 
-            var tablicaIzvjesaj = new ConsoleTable("Rb.", "Naziv artikla ", "Tip dokumenta", "Datum", "Sifra","Cijena", "Kolicina ulaz", "Iznos ulaz", "Kolicina izlaz", "Iznos izlaz");
+            var tablicaIzvjesaj = new ConsoleTable("Rb.", "Naziv artikla ", "Tip dokumenta", "Datum", "Sifra", "Cijena", "Kolicina ulaz", "Iznos ulaz", "Kolicina izlaz", "Iznos izlaz");
             var dokumentiArtikla = lDokumenti.Where(d => d.sifra == zeljeniArtikl || d.naziv == zeljeniArtikl).OrderBy(d => DateTime.Today).ToList();
             var cijena = lArtikli.Where(d => d.sifra == zeljeniArtikl || d.naziv == zeljeniArtikl).Select(d => d.cijena).FirstOrDefault();
             for (int i = 0; i < dokumentiArtikla.Count; i++)
             {
-                switch(dokumentiArtikla[i].tip)
-                { 
+                switch (dokumentiArtikla[i].tip)
+                {
                     case 1:
                         tip = "PS";
                         break;
@@ -519,16 +539,16 @@ namespace VSMTI_Gradnja_doo
                       dokumentiArtikla[i].datum,
                       dokumentiArtikla[i].sifra,
                       cijena + valuta,
-                      dokumentiArtikla[i].kolUlaz +" "+ jmj,
+                      dokumentiArtikla[i].kolUlaz + " " + jmj,
                       dokumentiArtikla[i].kolUlaz * cijena + valuta,
-                      dokumentiArtikla[i].kolIzlaz +" "+ jmj,
+                      dokumentiArtikla[i].kolIzlaz + " " + jmj,
                       dokumentiArtikla[i].kolIzlaz * cijena + valuta
                       );
             }
             tablicaIzvjesaj.Write();
         }
 
-        static void DohvatiIzdatnicu()
+        static void NovaIzdatnica()
         {
             Console.Clear();
             List<Artikl> lArtikli = DohvatiArtikle();
@@ -560,11 +580,11 @@ namespace VSMTI_Gradnja_doo
             }
             if (trenutnoKol < kolicinaIzlaza)
             {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("\nNemoguca izdatnica! Kolicina izlaza veca od trenutnog stanja, pokusajte ponovno.\n");
-                    Console.ResetColor();
-                    Console.Write("Unesite kolicinu izlaza: ");
-                    kolicinaIzlaza = Convert.ToInt32(DohvatiBroj());
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("\nNemoguca izdatnica! Kolicina izlaza veca od trenutnog stanja, pokusajte ponovno.\n");
+                Console.ResetColor();
+                Console.Write("Unesite kolicinu izlaza: ");
+                kolicinaIzlaza = Convert.ToInt32(DohvatiBroj());
             }
 
             var izdatnica = new Dokument //kreiranje objekta strukture Dokument kojem zadajemo vrijednosti
@@ -579,15 +599,15 @@ namespace VSMTI_Gradnja_doo
                 iznosIzlaz = kolicinaIzlaza * lArtikli.Where(x => x.sifra == zeljeniArtikl || x.naziv == zeljeniArtikl).Select(x => x.cijena).FirstOrDefault()
             };
             lDokumenti.Add(izdatnica);
-            
-            XmlDocument xStanje = new XmlDocument(); 
+
+            XmlDocument xStanje = new XmlDocument();
             xStanje.Load("stanje.xml");
             XmlElement eNode = xStanje.CreateElement("dokument");  // element > atributi
             string nazivDokumenta = "izdatnicu";
-            DohvatiElement(xStanje, eNode, izdatnica, nazivDokumenta);
+            SpremiCvor(xStanje, eNode, izdatnica, nazivDokumenta);
         }
 
-        static void DohvatiPrimku()
+        static void NovaPrimka()
         {
             Console.Clear();
             List<Artikl> lArtikli = DohvatiArtikle();
@@ -617,10 +637,10 @@ namespace VSMTI_Gradnja_doo
             xStanje.Load("stanje.xml");
             XmlElement eNode = xStanje.CreateElement("dokument");  // element > atributi
             string nazivDokumenta = "primku";
-            DohvatiElement(xStanje, eNode, primka, nazivDokumenta);
+            SpremiCvor(xStanje, eNode, primka, nazivDokumenta);
         }
 
-        static void DohvatiElement(XmlDocument xStanje, XmlElement eNode, Dokument dokument,string nazivDokumenta) 
+        static void SpremiCvor(XmlDocument xStanje, XmlElement eNode, Dokument dokument, string nazivDokumenta)
         {
             eNode.SetAttribute("tip", dokument.tip.ToString());
             eNode.SetAttribute("datum", dokument.datum);
@@ -630,15 +650,14 @@ namespace VSMTI_Gradnja_doo
             eNode.SetAttribute("kol_izlaz", dokument.kolIzlaz.ToString());
             eNode.SetAttribute("iznos_ulaz", dokument.iznosUlaz.ToString());
             eNode.SetAttribute("iznos_izlaz", dokument.iznosIzlaz.ToString());
-            xStanje.DocumentElement.AppendChild(eNode);
 
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("\n\nOdaberite[Y] -> Spremi " + nazivDokumenta + " !" );
+            Console.WriteLine("\n\nOdaberite[Y] -> Spremi " + nazivDokumenta + " !");
             Console.WriteLine("Odaberite bilo koju drugu tipku kako biste odustali.");
             Console.ResetColor();
             Console.Write("\nOdabir: ");
             int odabir = Convert.ToInt32(Console.ReadKey(true).Key);
-            if (odabir != (int)Key.Y)
+            if (odabir != (int)ConsoleKey.Y)
             {
                 DohvatiGlavniIzbornik();
             }
@@ -650,40 +669,6 @@ namespace VSMTI_Gradnja_doo
                 Console.WriteLine("\n*********************PRIMKA USPJESNO SPREMLJENA**********************\n");
                 Console.ResetColor();
             }
-        }
-
-        static string DohvatiTablicuArtikala()
-        {
-            List<Artikl> lArtikli = DohvatiArtikle();
-
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("\n~~~~~~~~~PONUDENI ARTIKLI~~~~~~~~~");
-            Console.ResetColor();
-
-            var tablicaArtikli = new ConsoleTable("Sifra", "Naziv artikla"); //An implicitly typed local variable -var- is strongly typed just as if you had declared the type yourself, but the compiler determines the type
-            for (int i = 0; i < lArtikli.Count(); i++)
-            {
-                tablicaArtikli.AddRow(
-                        lArtikli[i].sifra,
-                        lArtikli[i].naziv
-                       );
-            }
-            tablicaArtikli.Write();
-
-            Console.Write("\nUnesite sifru/naziv zeljenog artikla: ");
-            string zeljeniArtikl = Console.ReadLine();
-
-            var sifreArtikla = lArtikli.Select(a => a.sifra).ToList(); //name or pw Artikla
-            var naziviArtikla = lArtikli.Select(a => a.naziv).ToList();
-            while (!sifreArtikla.Contains(zeljeniArtikl) && !naziviArtikla.Contains(zeljeniArtikl))
-            {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Ne postoji artikl sa navedenom sifrom/nazivom, pokušajte ponovno.");
-                Console.ResetColor();
-                Console.Write("\nUnesite sifru/naziv artikla: ");
-                zeljeniArtikl = Console.ReadLine();
-            }
-            return zeljeniArtikl;
         }
     }
 }
@@ -785,5 +770,18 @@ namespace VSMTI_Gradnja_doo
                 oSw.WriteLine(sArg);
                 oSw.WriteLine(trenutno);
             }
+        }
+
+            public enum Key
+        {
+            DIGIT_1 = 49,
+            DIGIT_2 = 50,
+            DIGIT_3 = 51,
+            DIGIT_4 = 52,
+            DIGIT_5 = 53,
+            C = 67,
+            P = 80,
+            X = 88,
+            Y = 89
         }
 */
